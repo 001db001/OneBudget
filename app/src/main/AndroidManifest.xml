@@ -19,6 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".AppProvider"
+            android:authorities="com.hr.oresk.onebudget.provider"
+            android:exported="false" />
+
+        <activity android:name=".add_edit_InvoiceActivity$Add_edit_Account" />
+        <activity android:name=".fragment_main" />
+        <activity android:name=".Add_Edit_Activity"></activity>
     </application>
 
 </manifest>

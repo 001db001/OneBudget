@@ -14,7 +14,7 @@ import com.hr.oresk.onebudget.database.TABLES.InvoiceContract;
 /**
  * Basic database class for the application.
  * <p>
- * The only class that should use this is AppProvider.
+ * The only class that should use this is {@link AppProvider}.
  */
 class AppDatabase extends SQLiteOpenHelper {
     public static final String TAG = "AppDatabase";
@@ -22,7 +22,7 @@ class AppDatabase extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "OneBudget.db";
     public static final int DATABASE_VERSION = 1;
 
-    //Implement AppDatabase as a singletonevieasdasdasd
+    //Implement AppDatabase as a singleton
     private static AppDatabase instance = null;
 
     private AppDatabase(Context context) {
@@ -30,7 +30,9 @@ class AppDatabase extends SQLiteOpenHelper {
         Log.d(TAG, "AppDatabase: constructor");
     }
 
-    /**
+
+
+/**
      * Get instance of the app's singleton database helper object
      *
      * @param context the content provider context.
@@ -41,21 +43,47 @@ class AppDatabase extends SQLiteOpenHelper {
             Log.d(TAG, "getInstance: crating new instance");
             instance = new AppDatabase(context);
         }
+        Log.d(TAG, "getInstance: test");
         return instance;
     }
 
-    private void sSQL_Invoice(SQLiteDatabase db) {
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        Log.d(TAG, "onCreate: starts");
+        sSQL_Invoice(db);
+        sSQL_Categories(db);
+        sSQL_Balance(db);
+        sSQL_Account(db);
+        Log.d(TAG, "onCreate: ends");
 
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.d(TAG, "onUpgrade: starts");
+        switch (oldVersion) {
+            case 1:
+                //upgrade logic from version 1
+                break;
+            default:
+                throw new IllegalStateException("onUpgrade() with unknown newVersion: " + newVersion);
+        }
+        Log.d(TAG, "onUpgrade: ends");
+    }
+
+    private void sSQL_Invoice(SQLiteDatabase db) {
         String sql = "CREATE TABLE " + InvoiceContract.TABLE_NAME + " (" +
                 InvoiceContract.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, " +
                 InvoiceContract.Columns.INVOICE_ACCOUNT + " INTEGER, " +
                 InvoiceContract.Columns.INVOICE_CATEGORY + " INTEGER, " +
                 InvoiceContract.Columns.INVOICE_AMOUNT + " TEXT, " +
-                InvoiceContract.Columns.INVOICE_DATE + " TEXT, " +
+                InvoiceContract.Columns.INVOICE_DATE + " INTEGER, " +
                 InvoiceContract.Columns.INVOICE_TYPE + " TEXT, " +
                 InvoiceContract.Columns.INVOICE_DESCRIPTION + " TEXT);";
         db.execSQL(sql);
         Log.d(TAG,">>>>INVOICE TABLE<<<< "+ sql);
+
     }
 
     private void sSQL_Categories( SQLiteDatabase db) {
@@ -77,7 +105,7 @@ class AppDatabase extends SQLiteOpenHelper {
                 BalanceContract.Columns.BALANCE_CATEGORY + " INTEGER, " +
                 BalanceContract.Columns.BALANCE_AMOUNT + " TEXT, " +
                 BalanceContract.Columns.BALANCE_DESCRIPTION + " TEXT, " +
-                BalanceContract.Columns.BALANCE_DATE + " TEXT);";
+                BalanceContract.Columns.BALANCE_DATE + " INTEGER);";
         db.execSQL(sql);
         Log.d(TAG, ">>>>BALANCE TABLE<<<< "+sql );
     }
@@ -90,31 +118,6 @@ class AppDatabase extends SQLiteOpenHelper {
                 AccountsContract.Columns.ACCOUNTS_DESCRIPTION + " TEXT);";
         db.execSQL(sql);
         Log.d(TAG, ">>>>ACCOUNTS TABLE<<<< " + sql);
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        Log.d(TAG, "onCreate: starts");
-        sSQL_Invoice(db);
-        sSQL_Categories(db);
-        sSQL_Balance(db);
-        sSQL_Account(db);
-        Log.d(TAG, "onCreate: ends");
-
-
-     }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.d(TAG, "onUpgrade: starts");
-        switch (oldVersion) {
-            case 1:
-                //upgrade logic from version 1
-                break;
-            default:
-                throw new IllegalStateException("onUpgrade() with unknown newVersion: " + newVersion);
-        }
-        Log.d(TAG, "onUpgrade: ends");
     }
 
 }
