@@ -119,9 +119,9 @@ public class AppProvider extends ContentProvider {
                 long invoiceId = InvoiceContract.getInvoiceID(uri);
                 queryBuilder.appendWhere(InvoiceContract.Columns._ID + " = " + invoiceId);
                 break;
-//            case CATEGORIES://TODO TABLE: Categories
-//                queryBuilder.setTables(CategoriesContract.TABLE_NAME);
-//                break;
+            case CATEGORIES://TODO TABLE: Categories
+                queryBuilder.setTables(CategoriesContract.TABLE_NAME);
+                break;
 //            case CATEGORIES_ID://TODO TABLE: Categories by _Id.
 //                queryBuilder.setTables(CategoriesContract.TABLE_NAME);
 //                long categoriesId = CategoriesContract.getCategoriesId(uri);
@@ -137,30 +137,36 @@ public class AppProvider extends ContentProvider {
                 long balanceId = BalanceContract.getBalanceId(uri);
                 queryBuilder.appendWhere(BalanceContract.Columns._ID + " = " + balanceId);
                 break;
-            case BALANCE_ACCOUNT://TODO TABLE: Balance by Account
-                queryBuilder.setTables(BalanceContract.TABLE_NAME);
-                long balanceAccount = BalanceContract.getBalanceAccount(uri);
-                queryBuilder.appendWhere(BalanceContract.Columns.BALANCE_ACCOUNT + " = " + balanceAccount);
-                break;
-            case BALANCE_CATEGORY: //TODO TABLE: Balance by Categories
-                queryBuilder.setTables(BalanceContract.TABLE_NAME);
-                long balanceCategory = BalanceContract.getBalanceCategory(uri);
-                queryBuilder.appendWhere(BalanceContract.Columns.BALANCE_CATEGORY + " = " + balanceCategory);
-                break;
-//            case ACCOUNTS: //TODO TABLE: Accounts.
-//                queryBuilder.setTables(AccountsContract.TABLE_NAME);
+//            case BALANCE_ACCOUNT://TODO TABLE: Balance by Account
+//                queryBuilder.setTables(InvoiceContract.TABLE_NAME);
+//                long balanceAccount = AccountsContract.getAccountID(uri);
+//                queryBuilder.appendWhere(BalanceContract.Columns.BALANCE_ACCOUNT + " = " + balanceAccount);
 //                break;
-//            case ACCOUNTS_ID: //TODO TABLE: Accounts by _Id
-//                queryBuilder.setTables(AccountsContract.TABLE_NAME);
-//                long accountId = AccountsContract.getAccountId(uri);
-//                queryBuilder.appendWhere(AccountsContract.Columns._ID +" = "+ accountId);
+//            case BALANCE_CATEGORY: //TODO TABLE: Balance by Categories
+//                queryBuilder.setTables(CategoriesContract.TABLE_NAME);
+//                long balanceCategory = CategoriesContract.getCategoryID(uri);
+//                queryBuilder.appendWhere(BalanceContract.Columns.BALANCE_CATEGORY + " = " + balanceCategory);
+//                break;
+            case ACCOUNTS: //TODO TABLE: Accounts.
+                queryBuilder.setTables(AccountsContract.TABLE_NAME);
+                break;
+            case ACCOUNTS_ID: //TODO TABLE: Accounts by _Id
+                queryBuilder.setTables(AccountsContract.TABLE_NAME);
+                long accountId = AccountsContract.getAccountID(uri);
+                queryBuilder.appendWhere(AccountsContract.Columns._ID +" = "+ accountId);
 
             default:
                 throw new IllegalArgumentException("Unknown Uri: " + uri);
         }
 
         SQLiteDatabase db = mOpenHelper.getReadableDatabase();
-        return queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+
+        //return queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+        Cursor cursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+        Log.d(TAG, "query: rows in returned cursor" + cursor.getCount());//TODO: remove this line
+
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        return cursor;
     }
 
     @Nullable
@@ -201,7 +207,7 @@ public class AppProvider extends ContentProvider {
         final SQLiteDatabase db;
 
         Uri returnUri = null; //TODO: ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?
-        long recordId;
+        long recordId = 0;
 
         switch (match) {
             case INVOICE:
@@ -236,12 +242,22 @@ public class AppProvider extends ContentProvider {
                 break;
             case ACCOUNTS:
                 db = mOpenHelper.getWritableDatabase();
+                recordId = db.insert(AccountsContract.TABLE_NAME, null, values);
+
+                if (recordId >= 0) {
+                    returnUri = AccountsContract.buildAccountUri(recordId);
+                } else {
+                    throw new android.database.SQLException("Failed to insert into " + uri.toString());
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
-
+        if (recordId >= 0) {
+            Log.d(TAG, "insert: Setting notifyChanged with " + uri);
+        }
         Log.d(TAG, "Exiting insert, returning " + returnUri);
+        getContext().getContentResolver().notifyChange(uri, null);
         return returnUri;
     }
 
@@ -311,6 +327,12 @@ public class AppProvider extends ContentProvider {
                 break;
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
+        }
+        if (count <= 0) {
+            Log.d(TAG, "delete: Setting notifyChanged with " + uri);
+            getContext().getContentResolver().notifyChange(uri, null);
+        } else {
+            Log.d(TAG, "delete: nothing deleted");
         }
         Log.d(TAG, "Exiting delete, returning " + count);
         return count;
@@ -383,6 +405,13 @@ public class AppProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
+        if (count <= 0) {
+            Log.d(TAG, "update: Setting notifyChanged with " + uri);
+            getContext().getContentResolver().notifyChange(uri, null);
+        } else {
+            Log.d(TAG, "update: nothing deleted");
+        }
+
         Log.d(TAG, "Exiting update, returning " + count);
         return count;
     }

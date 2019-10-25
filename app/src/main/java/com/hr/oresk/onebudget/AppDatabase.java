@@ -75,8 +75,8 @@ class AppDatabase extends SQLiteOpenHelper {
     private void sSQL_Invoice(SQLiteDatabase db) {
         String sql = "CREATE TABLE " + InvoiceContract.TABLE_NAME + " (" +
                 InvoiceContract.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, " +
-                InvoiceContract.Columns.INVOICE_ACCOUNT + " INTEGER, " +
-                InvoiceContract.Columns.INVOICE_CATEGORY + " INTEGER, " +
+                InvoiceContract.Columns.INVOICE_ACCOUNT + " TEXT, " +
+                InvoiceContract.Columns.INVOICE_CATEGORY + " TEXT, " +
                 InvoiceContract.Columns.INVOICE_AMOUNT + " TEXT, " +
                 InvoiceContract.Columns.INVOICE_DATE + " INTEGER, " +
                 InvoiceContract.Columns.INVOICE_TYPE + " TEXT, " +
@@ -92,7 +92,8 @@ class AppDatabase extends SQLiteOpenHelper {
                 CategoriesContract.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, " +
                 CategoriesContract.Columns.CATEGORIES_NAME + " TEXT, " +
                 CategoriesContract.Columns.CATEGORIES_INVOICE_TYPE + " TEXT, " +
-                CategoriesContract.Columns.CATEGORIES_DESCRIPTION + " TEXT);";
+                CategoriesContract.Columns.CATEGORIES_DESCRIPTION + " TEXT," +
+                CategoriesContract.Columns.CATEGORIES_AMOUNT+" TEXT);";
         db.execSQL(sql);
         Log.d(TAG, ">>>>CATEGORIES TABLE<<<< "+ sql);
 

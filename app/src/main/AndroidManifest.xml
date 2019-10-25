@@ -11,7 +11,6 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,9 +24,16 @@
             android:authorities="com.hr.oresk.onebudget.provider"
             android:exported="false" />
 
-        <activity android:name=".add_edit_InvoiceActivity$Add_edit_Account" />
-        <activity android:name=".fragment_main" />
-        <activity android:name=".Add_Edit_Activity"></activity>
+        <activity android:name=".AddEdit_Invoice"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".AddEdit_account"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".AddEdit_Category"
+            android:parentActivityName=".MainActivity"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
     </application>
 
 </manifest>

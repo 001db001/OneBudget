@@ -16,6 +16,7 @@ public class CategoriesContract {
         public static final String CATEGORIES_NAME = "Name";
         public static final String CATEGORIES_INVOICE_TYPE = "Invoice_Type";
         public static final String CATEGORIES_DESCRIPTION = "Description";
+        public static final String CATEGORIES_AMOUNT = "Amount";
 
         private Columns() {
             // private constructor to prevent instantiation

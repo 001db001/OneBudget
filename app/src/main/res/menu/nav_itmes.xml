@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<item
+        android:id="@+id/bottomNav_Home"
+        android:icon="@drawable/round_home_black_24dp"
+        android:title="@string/nav_home" />-->
+    <item
+        android:id="@+id/bottomNav_Invoice"
+        android:icon="@drawable/ic_invoice"
+        android:title="@string/nav_invoice" />
+    <item
+        android:id="@+id/bottomNav_Category"
+        android:icon="@drawable/ic_category"
+        android:title="@string/nav_category" />
+    <item
+        android:id="@+id/bottomNav_Account"
+        android:icon="@drawable/ic_account"
+        android:title="@string/ili_Account" />
+</menu>

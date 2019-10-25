@@ -7,6 +7,44 @@
     <string name="ili_edit">Edit invoice</string>
     <string name="ili_delete">Delete invoice</string>
     <string name="ili_description">Description</string>
+    <string name="iae_invoice_type">Invoice type</string>
+    <string name="iae_update">Update</string>
+    <string name="addEdit_save">Save</string>
+    <string name="addEdit_delete">Delete</string>
+    <string name="addEdit_update">Update</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_invoice">Invoice</string>
+    <string name="nav_category">Category</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_Home">Home Fragment</string>
+    <string name="fragment_Invoice">Invoice</string>
+    <string name="fragment_Category">Category Fragment</string>
+    <string name="fragment_account">Account Fragment</string>
+    <string name="addEdit_Expense">Expense</string>
+    <string name="addEdit_Income">Income</string>
+    <string name="addEdit_InvoiceType">Invoice type</string>
+    <string name="ili_description_here">Your description of a invoice will be shown here.</string>
+    <string name="ili_account_here">Account that has been used will be shown here.</string>
+    <string name="ili_category_here">Category that has been used will be shown here.</string>
+    <string name="ili_amount_here">Amount of money that has been withdrawn or imported will be shown here.</string>
+    <string name="ili_type_here">EXPENSE or INCOME</string>
+    <string name="ari_Name">Name: </string>
+    <string name="ari_Description">Description: </string>
+    <string name="ari__Amount">Amount: </string>
+    <string name="ari_Edit">Button for editing account</string>
+    <string name="ari_Delete">Button for deleting account</string>
+    <string name="cri_Edit">Button for editing category</string>
+    <string name="cri_Delete">Button for deleting category</string>
+    <string name="ari_Name_Text">Name of the account is presented here</string>
+    <string name="ari_Description_Text">Description of account is shown here</string>
+    <string name="ari_Amount_Text">Current amount of money on account is shown here</string>
+    <string name="cri_Name_Text">Name of the account is presented here</string>
+    <string name="cri_Description_Text">Description of account is shown here</string>
+    <string name="cri_Amount_Text">Current amount of money on account is shown here</string>
+    <string name="addEdit_Account_Name">Name of Account:</string>
+    <string name="addEdit_Account_Description">Description of Account:</string>
+    <string name="addEdit_Category_Name">Name of Category:</string>
+    <string name="addEdit_Category_Description">Description of Category:</string>
 
 
 </resources>
